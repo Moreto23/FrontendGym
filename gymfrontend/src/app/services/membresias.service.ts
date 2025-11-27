@@ -4,7 +4,7 @@ import { toHttpParams } from './http.util';
 
 @Injectable({ providedIn: 'root' })
 export class MembresiasService {
-  private base = '/api/membresias';
+  private readonly BASE = 'https://backendgym-1-id69.onrender.com/api/membresias';
   constructor(private http: HttpClient) {}
   listar() { return this.http.get<any[]>(`${this.base}`); }
   obtener(id: number) { return this.http.get<any>(`${this.base}/${id}`); }
