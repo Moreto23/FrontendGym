@@ -6,7 +6,7 @@ const API_BASE = 'https://backendgym-1-id69.onrender.com';
 
 @Injectable({ providedIn: 'root' })
 export class ProductoService {
-  private base = `${API_BASE}/api/productos`;
+  private readonly base = `${API_BASE}/api/productos`;
 
   constructor(private http: HttpClient) {}
 
@@ -18,10 +18,21 @@ export class ProductoService {
     return this.http.get<any[]>(`${this.base}/destacados`);
   }
 
-  buscar(p: { q?: string; categoria?: string; soloConStock?: boolean; page?: number; size?: number; }) {
-    return this.http.get<any>(`${this.base}/search`, {
-      params: toHttpParams(p)
+  buscar(p: {
+    q?: string;
+    categoria?: string;
+    soloConStock?: boolean;
+    page?: number;
+    size?: number;
+  }) {
+    const params = toHttpParams({
+      q: p.q ?? '',
+      categoria: p.categoria ?? '',
+      soloConStock: p.soloConStock ?? false,
+      page: p.page ?? 0,
+      size: p.size ?? 12,
     });
+    return this.http.get<any>(`${this.base}/search`, { params });
   }
 
   popularidad(id: number) {
