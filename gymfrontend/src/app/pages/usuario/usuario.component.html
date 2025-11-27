@@ -23,7 +23,7 @@
         <a class="link" routerLink="/reservas">Ver todas</a>
       </div>
       <ul class="list">
-        @for (r of proximasReservas) {
+        @for (r of proximasReservas; track r) {
           <li>
             <span class="when">{{ r.fecha | date:'short' }}</span>
             <span class="what">{{ r.titulo || r.producto?.nombre }}</span>
@@ -55,7 +55,7 @@
         <a class="link" routerLink="/planes">Ver planes</a>
       </div>
       <ul class="chips">
-        @for (p of planesActivos) {
+        @for (p of planesActivos; track p) {
           <li class="chip">
             {{ p.nombre || p.titulo }} · {{ p.estado || 'ACTIVO' }}
           </li>
@@ -72,7 +72,7 @@
     </div>
 
     <div class="grid grid--3">
-      @for (s of servicios) {
+      @for (s of servicios; track s) {
         <article class="card service">
           <div class="service__icon" [innerHTML]="s.icono"></div>
           <h4>{{ s.titulo }}</h4>
@@ -123,14 +123,14 @@
         </p>
 
         <ul class="hours">
-          @for (h of horario) {
+          @for (h of horario; track h) {
             <li><strong>{{ h.dia }}:</strong> {{ h.horas }}</li>
           }
         </ul>
 
         @if (telefonos.length) {
           <div class="phones">
-            @for (t of telefonos; let i = $index) {
+            @for (t of telefonos; track t; let i = $index) {
               <span>
                 <a [href]="'tel:'+t">{{ t }}</a>
                 @if (i < (telefonos.length - 1)) { <span> · </span> }
