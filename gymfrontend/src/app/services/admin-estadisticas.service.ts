@@ -4,7 +4,9 @@ import { toHttpParams } from './http.util';
 
 @Injectable({ providedIn: 'root' })
 export class AdminEstadisticasService {
-  private base = '/api/admin/estadisticas';
+  // 👉 Ahora apunta al backend en Render
+  private readonly base = 'https://backendgym-1-id69.onrender.com/api/admin/estadisticas';
+
   constructor(private http: HttpClient) {}
 
   overview(p: { from: string; to: string; }) {
@@ -27,7 +29,9 @@ export class AdminEstadisticasService {
   }
 
   ultimosPedidos(limit = 10) {
-    return this.http.get<any[]>(`${this.base}/ultimos-pedidos`, { params: toHttpParams({ limit }) });
+    return this.http.get<any[]>(`${this.base}/ultimos-pedidos`, {
+      params: toHttpParams({ limit })
+    });
   }
 
   tops(p: { from: string; to: string; limit?: number }) {
