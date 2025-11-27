@@ -2,9 +2,12 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { toHttpParams } from './http.util';
 
+const API_BASE = 'https://backendgym-1-id69.onrender.com';
+
 @Injectable({ providedIn: 'root' })
 export class PerfilService {
-  private base = '/api/perfil';
+  private base = `${API_BASE}/api/perfil`;
+  
   constructor(private http: HttpClient) {}
   ver(usuarioId: number) { return this.http.get<any>(`${this.base}`, { params: toHttpParams({ usuarioId }) }); }
   editar(usuarioId: number, dto: any) { return this.http.patch<any>(`${this.base}`, dto, { params: toHttpParams({ usuarioId }) }); }
