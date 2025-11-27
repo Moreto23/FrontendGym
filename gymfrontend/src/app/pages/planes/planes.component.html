@@ -10,7 +10,10 @@
     <div class="info-banner">Solo puedes adquirir planes <strong>ACTIVOS</strong>. Los que están inactivos aparecerán en gris y no se pueden seleccionar.</div>
 
     <div class="grid">
-      <article class="plan-card" *ngFor="let p of data" [ngClass]="{disabled: p.estado !== 'ACTIVO', 'is-active': activePlanIds.has(p.id)}" aria-disabled="{{p.estado !== 'ACTIVO'}}">
+      <article class="plan-card"
+               *ngFor="let p of data"
+               [ngClass]="{disabled: p.estado !== 'ACTIVO', 'is-active': activePlanIds.has(p.id)}"
+               [attr.aria-disabled]="p.estado !== 'ACTIVO' ? 'true' : 'false'">
         <header class="plan-card__media" [style.background-image]="p.imagen ? 'url(' + p.imagen + ')' : null">
           <span class="plan-card__status" [ngClass]="{ ok: p.estado==='ACTIVO', off: p.estado==='INACTIVO', warn: p.estado==='SOLICITADO' }">{{ p.estado || 'ACTIVO' }}</span>
         </header>
