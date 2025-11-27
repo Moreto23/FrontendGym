@@ -1,9 +1,12 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 
+const API_BASE = 'https://backendgym-1-id69.onrender.com/api/calificaciones';
+
 @Injectable({ providedIn: 'root' })
 export class CalificacionesService {
-  private base = '/api/calificaciones';
+
+  private readonly base = API_BASE;
 
   constructor(private http: HttpClient) {}
 
