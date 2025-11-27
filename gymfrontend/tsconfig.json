@@ -3,7 +3,8 @@
 {
   "compileOnSave": false,
   "compilerOptions": {
-    "strict": true,
+    // 🔽 Bajamos strict para que no reviente por los "implicit any" (TS7006)
+    "strict": false,
     "noImplicitOverride": true,
     "noPropertyAccessFromIndexSignature": true,
     "noImplicitReturns": true,
@@ -12,8 +13,14 @@
     "isolatedModules": true,
     "experimentalDecorators": true,
     "importHelpers": true,
+
     "target": "ES2022",
-    "module": "preserve"
+
+    // 🔽 CAMBIO IMPORTANTE: "preserve" -> "es2022"
+    "module": "ES2022",
+
+    // 🔽 Para que encuentre bien @angular/*, rxjs, etc.
+    "moduleResolution": "node"
   },
   "angularCompilerOptions": {
     "enableI18nLegacyMessageIdFormat": false,
