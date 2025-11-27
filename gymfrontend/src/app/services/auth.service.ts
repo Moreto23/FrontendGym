@@ -8,7 +8,7 @@ export interface AuthResponse { token: string; }
 
 @Injectable({ providedIn: 'root' })
 export class AuthService {
-  private readonly BASE = '/api/auth';
+  private readonly BASE = 'https://backendgym-1-id69.onrender.com/api/auth';
   private readonly KEY  = 'auth_token';
   private readonly KEY_UID = 'user_id';
 
