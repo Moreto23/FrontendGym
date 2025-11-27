@@ -16,7 +16,11 @@
             <button class="outline" (click)="openUpdateModal()" [disabled]="!telefonoValido || !direccion || !pendienteActualizar">Actualizar</button>
           </div>
           <div class="cta">
-            <button class="pill" [class.loading]="isPaying" (click)="iniciar()" [disabled]="!puedePagar" aria-busy="{{isPaying}}">
+            <button class="pill"
+                    [class.loading]="isPaying"
+                    (click)="iniciar()"
+                    [disabled]="!puedePagar"
+                    [attr.aria-busy]="isPaying ? 'true' : 'false'">
               <span class="spinner" *ngIf="isPaying"></span>
               {{ isPaying ? 'Procesando…' : 'Continuar al pago' }}
             </button>
