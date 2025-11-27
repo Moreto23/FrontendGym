@@ -4,7 +4,7 @@ import { toHttpParams } from './http.util';
 
 @Injectable({ providedIn: 'root' })
 export class ConsultasService {
-  private readonly BASE = 'https://backendgym-1-id69.onrender.com/api/consultas';
+  private readonly base = 'https://backendgym-1-id69.onrender.com/api/consultas';
   constructor(private http: HttpClient) {}
   crear(dto: { usuarioId: number; asunto: string; mensaje: string; tipo?: string; }) {
     return this.http.post<any>(`${this.base}`, dto);
