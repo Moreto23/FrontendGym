@@ -2,18 +2,25 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { toHttpParams } from './http.util';
 
+const API_BASE = 'https://backendgym-1-id69.onrender.com';
+
 @Injectable({ providedIn: 'root' })
 export class AdminProductosService {
-  private base = '/api/productos';
+  private base = `${API_BASE}/api/productos`;
+
   constructor(private http: HttpClient) {}
 
-  listar() { return this.http.get<any[]>(this.base); }
+  listar()     { return this.http.get<any[]>(this.base); }
   obtener(id: number) { return this.http.get<any>(`${this.base}/${id}`); }
-  crear(p: any) { return this.http.post<any>(this.base, p); }
+  crear(p: any)       { return this.http.post<any>(this.base, p); }
   actualizar(id: number, p: any) { return this.http.put<any>(`${this.base}/${id}`, p); }
   eliminar(id: number) { return this.http.delete<void>(`${this.base}/${id}`); }
 
-  buscar(opts: { q?: string; categoria?: string; soloConStock?: boolean; mostrarTodos?: boolean; disponible?: boolean | undefined; page?: number; size?: number; }) {
+  buscar(opts: {
+    q?: string; categoria?: string; soloConStock?: boolean;
+    mostrarTodos?: boolean; disponible?: boolean | undefined;
+    page?: number; size?: number;
+  }) {
     const params = toHttpParams({
       q: opts.q ?? '',
       categoria: opts.categoria ?? undefined,
