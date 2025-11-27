@@ -2,25 +2,38 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { toHttpParams } from './http.util';
 
+const API = 'https://backendgym-1-id69.onrender.com/api/pagos';
+
 @Injectable({ providedIn: 'root' })
 export class PagosService {
-  private readonly base = 'https://backendgym-1-id69.onrender.com/api/pagos';
+
+  private readonly base = API;
+
   constructor(private http: HttpClient) {}
-  iniciar(usuarioId: number, metodoPago: 'YAPE'|'PAYPAL') {
-    return this.http.post<any>(`${this.base}/iniciar`, null, { params: toHttpParams({ usuarioId, metodoPago }) });
+
+  iniciar(usuarioId: number, metodoPago: 'YAPE' | 'PAYPAL') {
+    return this.http.post<any>(`${this.base}/iniciar`, null, {
+      params: toHttpParams({ usuarioId, metodoPago })
+    });
   }
+
   confirmar(pedidoId: number, referenciaPago?: string) {
-    return this.http.post<any>(`${this.base}/${pedidoId}/confirmar`, null, { params: toHttpParams({ referenciaPago }) });
+    return this.http.post<any>(`${this.base}/${pedidoId}/confirmar`, null, {
+      params: toHttpParams({ referenciaPago })
+    });
   }
 
   crearPreferenciaMercadoPago(usuarioId?: number) {
-    const options = usuarioId != null ? { params: toHttpParams({ usuarioId }) } : {};
+    const options = usuarioId ? { params: toHttpParams({ usuarioId }) } : {};
     return this.http.post<any>(`${this.base}/mercadopago/preferencia`, null, options as any);
   }
 
   crearPreferenciaDirecta(titulo: string, monto: number, usuarioId?: number) {
     const params: any = { titulo, monto };
     if (usuarioId != null) params.usuarioId = usuarioId;
-    return this.http.post<any>(`${this.base}/mercadopago/preferencia-directa`, null, { params: toHttpParams(params) });
+
+    return this.http.post<any>(`${this.base}/mercadopago/preferencia-directa`, null, {
+      params: toHttpParams(params)
+    });
   }
 }
