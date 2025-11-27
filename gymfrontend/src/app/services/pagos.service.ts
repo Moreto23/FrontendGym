@@ -4,7 +4,7 @@ import { toHttpParams } from './http.util';
 
 @Injectable({ providedIn: 'root' })
 export class PagosService {
-  private base = `/api/pagos`;
+  private readonly BASE = 'https://backendgym-1-id69.onrender.com/api/pagos';
   constructor(private http: HttpClient) {}
   iniciar(usuarioId: number, metodoPago: 'YAPE'|'PAYPAL') {
     return this.http.post<any>(`${this.base}/iniciar`, null, { params: toHttpParams({ usuarioId, metodoPago }) });
