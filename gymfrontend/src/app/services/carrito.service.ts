@@ -4,7 +4,7 @@ import { toHttpParams } from './http.util';
 
 @Injectable({ providedIn: 'root' })
 export class CarritoService {
-  private readonly BASE = 'https://backendgym-1-id69.onrender.com/api/carrito';
+  private readonly base = 'https://backendgym-1-id69.onrender.com/api/carrito';
   constructor(private http: HttpClient) {}
   get(usuarioId: number) { return this.http.get<any>(`${this.base}`, { params: toHttpParams({ usuarioId }) }); }
   agregar(usuarioId: number, productoId: number, cantidad = 1) {
