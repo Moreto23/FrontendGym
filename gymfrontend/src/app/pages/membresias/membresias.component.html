@@ -18,7 +18,7 @@
       <article class="goldcard"
                *ngFor="let m of data"
                [ngClass]="{ 'disabled': !isEnabled(m) }"
-               aria-disabled="{{!isEnabled(m)}}">
+               [attr.aria-disabled]="!isEnabled(m) ? 'true' : 'false'">
 
         <!-- Cabecera -->
         <header class="goldcard__head">
