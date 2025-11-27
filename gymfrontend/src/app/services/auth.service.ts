@@ -6,86 +6,89 @@ export interface RegisterPayload { nombre: string; apellido: string; email: stri
 export interface LoginPayload { email: string; password: string; }
 export interface AuthResponse { token: string; }
 
+const API_BASE = 'https://backendgym-1-id69.onrender.com/api/auth';
+
 @Injectable({ providedIn: 'root' })
 export class AuthService {
-  // 👇 BASE DEL BACKEND EN RENDER
-  private readonly base = 'https://backendgym-1-id69.onrender.com/api/auth';
+
+  private readonly base = API_BASE;
   private readonly KEY  = 'auth_token';
   private readonly KEY_UID = 'user_id';
 
   constructor(private http: HttpClient) {}
 
-  // 👉 aquí estaba el problema: usar this.base
+  // Registro
   registerInit(payload: RegisterPayload) {
     return this.http.post<{ status:string; message:string }>(
-      `${this.base}/register-init`,
-      payload
+      `${this.base}/register-init`, payload
     );
   }
 
-  // Método genérico usado por el componente
   register(payload: RegisterPayload) {
     return this.registerInit(payload);
   }
 
   registerConfirm(email: string, code: string) {
     return this.http.post<{status:string; message:string}>(
-      `${this.base}/register-confirm`,
-      null,
+      `${this.base}/register-confirm`, null,
       { params: { email, code } }
     );
   }
 
+  // Login
   login(payload: LoginPayload): Observable<AuthResponse> {
     return this.http.post<AuthResponse>(`${this.base}/login`, payload)
       .pipe(tap(res => this.setToken(res.token)));
   }
 
-  loginInit(payload: LoginPayload): Observable<{status:string; message:string}> {
+  loginInit(payload: LoginPayload) {
     return this.http.post<{status:string; message:string}>(
-      `${this.base}/login-init`,
-      payload
+      `${this.base}/login-init`, payload
     );
   }
 
   loginConfirm(email: string, code: string): Observable<AuthResponse> {
-    return this.http.post<AuthResponse>(
-      `${this.base}/login-confirm`,
-      null,
-      { params: { email, code } }
-    ).pipe(tap(res => this.setToken(res.token)));
+    return this.http.post<AuthResponse>(`${this.base}/login-confirm`, null, {
+      params: { email, code }
+    }).pipe(tap(res => this.setToken(res.token)));
   }
 
-  recoverInit(email: string): Observable<{status:string; message:string}> {
+
+  // Recovery
+  recoverInit(email: string) {
     return this.http.post<{status:string; message:string}>(
-      `${this.base}/recover-init`,
-      null,
-      { params: { email } }
+      `${this.base}/recover-init`, null, { params: { email } }
     );
   }
 
   recoverConfirm(email: string, code: string, newPassword: string) {
     return this.http.post<{status:string; message:string}>(
-      `${this.base}/recover-confirm`,
-      null,
+      `${this.base}/recover-confirm`, null,
       { params: { email, code, newPassword } }
     );
   }
 
   recoverValidate(email: string, code: string) {
     return this.http.post<{status:string; message:string}>(
-      `${this.base}/recover-validate`,
-      null,
+      `${this.base}/recover-validate`, null,
       { params: { email, code } }
     );
   }
 
+
+  // Token
   setToken(token: string) { localStorage.setItem(this.KEY, token); }
-  getToken(): string | null { return localStorage.getItem(this.KEY); }
+  getToken() { return localStorage.getItem(this.KEY); }
   clearToken() { localStorage.removeItem(this.KEY); }
 
-  isLoggedIn(): boolean { return !!this.getToken(); }
-  isLogged(): boolean { return this.isLoggedIn(); }
+  isLoggedIn() { return !!this.getToken(); }
+  isLogged() { return this.isLoggedIn(); }
+
+  decodeJwt(token: string): any {
+    const payload = token.split('.')[1];
+    const json = atob(payload.replace(/-/g,'+').replace(/_/g,'/'));
+    return JSON.parse(decodeURIComponent(escape(json)));
+  }
 
   getUsernameFromToken(): string | null {
     const t = this.getToken(); if (!t) return null;
@@ -95,13 +98,12 @@ export class AuthService {
     } catch { return null; }
   }
 
-  getEmail(): string | null { return this.getUsernameFromToken(); }
+  getEmail() { return this.getUsernameFromToken(); }
 
   getRole(): string | null {
     const t = this.getToken(); if (!t) return null;
     try {
-      const p = this.decodeJwt(t);
-      return p?.role ?? null;
+      return this.decodeJwt(t)?.role ?? null;
     } catch { return null; }
   }
 
@@ -116,15 +118,11 @@ export class AuthService {
     return stored ? Number(stored) : null;
   }
 
-  isAdmin(): boolean { return this.getRole() === 'ADMIN'; }
-  isTrabajador(): boolean { return this.getRole() === 'TRABAJADOR'; }
-  logout(): void { this.clearToken(); }
+  // Roles
+  isAdmin() { return this.getRole() === 'ADMIN'; }
+  isTrabajador() { return this.getRole() === 'TRABAJADOR'; }
 
-  private decodeJwt(token: string): any {
-    const payload = token.split('.')[1];
-    const json = atob(payload.replace(/-/g,'+').replace(/_/g,'/'));
-    return JSON.parse(decodeURIComponent(escape(json)));
-  }
+  logout() { this.clearToken(); }
 
   verifyEmail(email: string, code: string) {
     return this.registerConfirm(email, code);
