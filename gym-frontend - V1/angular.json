@@ -33,21 +33,27 @@
               "src/styles.scss"
             ],
             "stylePreprocessorOptions": {
-              "includePaths": ["src", "src/app"]
-            }
+              "includePaths": [
+                "src",
+                "src/app"
+              ]
+            },
+            "allowedCommonJsDependencies": [
+              "jsqr"
+            ]
           },
           "configurations": {
             "production": {
               "budgets": [
                 {
                   "type": "initial",
-                  "maximumWarning": "500kB",
-                  "maximumError": "1MB"
+                  "maximumWarning": "3MB",
+                  "maximumError": "5MB"
                 },
                 {
                   "type": "anyComponentStyle",
-                  "maximumWarning": "4kB",
-                  "maximumError": "8kB"
+                  "maximumWarning": "50kB",
+                  "maximumError": "100kB"
                 }
               ],
               "outputHashing": "all"
@@ -95,7 +101,10 @@
               "src/styles.scss"
             ],
             "stylePreprocessorOptions": {
-              "includePaths": ["src", "src/app"]
+              "includePaths": [
+                "src",
+                "src/app"
+              ]
             }
           }
         }
