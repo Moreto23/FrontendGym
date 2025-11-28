@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { toHttpParams } from './http.util';
 
-const API = 'https://backendgym-1-id69.onrender.com/api/planes';
+const API = 'https://webgym-frontend.onrender.com/api/planes';
 
 @Injectable({ providedIn: 'root' })
 export class PlanesService {
