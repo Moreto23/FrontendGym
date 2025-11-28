@@ -4,7 +4,7 @@ import { toHttpParams } from './http.util';
 
 @Injectable({ providedIn: 'root' })
 export class AdminPromocionesService {
-  private base = '/api/promociones';
+  private base = 'https://webgym-frontend.onrender.com/api/promociones';
   constructor(private http: HttpClient) {}
 
   listar(soloActivas = false, page=0, size=50) { return this.http.get<any>(`${this.base}`, { params: toHttpParams({ soloActivas, page, size }) }); }
