@@ -4,8 +4,8 @@ import { toHttpParams } from './http.util';
 
 @Injectable({ providedIn: 'root' })
 export class AdminEstadisticasService {
-  // 👉 Ahora apunta al backend en Render
-  private readonly base = 'https://backendgym-1-id69.onrender.com/api/admin/estadisticas';
+  
+  private readonly base = 'https://webgym-frontend.onrender.com/api/admin/estadisticas';
 
   constructor(private http: HttpClient) {}
 
